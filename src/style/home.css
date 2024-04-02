@@ -1,0 +1,57 @@
+.todo {
+    margin: 20px auto;
+    max-width: 500px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input {
+    margin-bottom: 20px;
+  }
+  
+  .inputs {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input[type="text"],
+  textarea,
+  #select,
+  #inputDate {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .form.createList {
+    text-align: center;
+  }
+  
+  .signOut {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .big {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
