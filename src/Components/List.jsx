@@ -1,259 +1,108 @@
-// import React, { useEffect, useRef, useState } from 'react'
-// import { MdDelete } from "react-icons/md";
-// import { MdEdit } from "react-icons/md";
-// import {  onValue, ref, remove, update } from "firebase/database"
-// import firebase from "../firebaseconfig.js"
-// import { MdOutlineDone } from "react-icons/md";
-// import toast from 'react-hot-toast';
-// function List({ todos , setTodos, setTitle, setDiscription, setOption, setDate, title, discription, option, Date, listName }) {
-//   let value = todos
-//   const [isEdit, setIsEdit] = useState(false)
-//   const [tempId, setTempId] = useState("")
-//   const [todoListName, setTodoListName] = useState("")
-
-// useEffect(() =>{
-//   if(value.length === 0 ) setTodoListName(listName) 
-//   else setTodoListName(value[0].listName)
-
-//   for(let i=0;i<value.length;i++){
-//     if(value[i].listName !== ""){
-//       setTodoListName(value[i].listName)
-//       break;
-//     }
-//   }
-// },[value])
-
-//   const handleUpdate = (todo) => {
-//     setIsEdit(true)
-//     setTitle(todo.title)
-//     setDiscription(todo.discription)
-//     setOption(todo.option)
-//     setDate(todo.date)
-//     setTempId(todo.uid)
-//   }
-
-//   const handleUpdateConfirm = () => {
-//     update(ref(db, `${auth.currentUser.uid}/${tempId}`), {
-//       title: title,
-//       discription: discription,
-//       option: option,
-//       date: Date,
-//       uid: tempId
-
-//     })
-//     setIsEdit(false)
-//     setTitle("")
-//     setDiscription("")
-//     setOption("none")
-//     setDate("")
-//     setTempId("")
-//     toast.success("Updated Successfully")
-//   }
-
-//   const handleDelete = (uid) => {
-//     remove(ref(db, `${auth.currentUser.uid}/${uid}`))
-//     toast.success("Deleted Successfully")
-//   }
-
-
-//   const dragItem = useRef(null)
-//   const dragOverItem = useRef(null)
-
-//   const handleSort =async ()=>{
-//     let todos = [...value];
-//     const draggedItemContent = todos.splice(dragItem.current , 1 )[0]
-//     todos.splice(dragOverItem.current , 0 , draggedItemContent)
-//     dragItem.current = null;
-//     dragOverItem.current = null;
-//     setTodos(todos)
-
-//     const updates = {};
-//     todos.forEach((todo, index) => {
-//       updates[todo.uid] = { ...todo, order: index };
-//     });
-//     await update(ref(db, `${auth.currentUser.uid}`), updates);
-
-//   }
-
-  
-
-
-  
-//   const renderData = (state)=>{
-//      return value
-//      .filter((todo) => {
-//       return todo.status === state
-//     })
-//      .map((todo, index) => {
-//         return (
-//           <li key={index}
-//           draggable
-//           onDragStart={(e) => handleDragStart(e, todo , index)}
-//           onDragEnter={(e)=> dragOverItem.current = index}
-//           onDragEnd={handleSort}
-//           >
-//             <div className='shows'>
-//               <p className='title'>Title : {todo.title}</p>
-//               <p className='discription'>Discription : {todo.discription}</p>
-//               <span id='date'>Date : {todo.date}</span>
-//               <span>Priority: {todo.option}</span></div>
-//             <span className='icons'>
-//               <MdDelete onClick={() => handleDelete(todo.uid)} />
-//               {
-//                 isEdit ? < MdOutlineDone onClick={() => handleUpdateConfirm()} /> : <MdEdit onClick={() => handleUpdate(todo)} />
-
-//               }
-
-//             </span>
-//           </li>
-//         )
-//       })
-    
-//   }
-
-//   const handleDragStart = (e, taskId , index) => {
-//     dragItem.current = index;
-//     setTempId(taskId.uid)
-//     e.dataTransfer.setData('taskId', taskId.uid);
-//   };
-
-//   const handleDragOver = (e) => {
-//     e.preventDefault();
-//   };
-
-//   const handleDrop = (e, status) => {
-//     e.preventDefault();
-//     update(ref(db, `${auth.currentUser.uid}/${tempId}`), {
-//       status: status,
-//     })
-//   };
-//   return (
-//     <div className='allLists'>
-//       <div className='todoList'>
-//         <div className="list"
-//          onDragOver={handleDragOver}
-//          onDrop={(e) => handleDrop(e, 'todo')}
-//         >
-//           <p className='heading'>{todoListName.toUpperCase()}</p>
-//           <ul>
-//           {renderData("todo")}
-//           </ul>
-//         </div>
-//       </div>
-//       <div className='processList'>
-//         <div className="list" 
-//          onDragOver={handleDragOver}
-//          onDrop={(e) => handleDrop(e, 'process')}
-//         >
-//           <p className='heading'>PROCESS</p>
-//           <ul>
-//           {renderData("process")}
-//           </ul>
-//         </div>
-//       </div>
-
-//       <div className='Finishedlist'>
-//         <div className="list"
-//          onDragOver={handleDragOver}
-//          onDrop={(e) => handleDrop(e, 'finish')}
-//         >
-//           <p className='heading'>FINISH</p>
-//           <ul>
-//           {renderData("finish")}
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default List
-
-
-
-
-
-
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react'
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
-import { onValue, ref, remove, update } from "firebase/database";
-import firebase from "../firebaseconfig.js"; // Import the Firebase configuration file
+import { ref, remove, update } from "firebase/database"
+import firebase from "../firebaseconfig.js"
 import { MdOutlineDone } from "react-icons/md";
 import toast from 'react-hot-toast';
 import "../style/list.css"
 
-function List({ todos, setTodos, setTitle, setDiscription, setOption, setDate, title, discription, option, Date, listName }) {
-  let value = todos;
-  const [isEdit, setIsEdit] = useState(false);
-  const [tempId, setTempId] = useState("");
-  const [todoListName, setTodoListName] = useState("");
+function List({ todos, setTodos, setTitle, setDiscription, setOption, setDate, title, discription, option, Date , setStatus , Updated}) {
+  let value = todos
+  const [isEdit, setIsEdit] = useState(false)
+  const [tempId, setTempId] = useState("")
+  const [newList, setNewList] = useState("")
+  const [numberList, setNumberList] = useState([])
+  const [totelLists, setTotelLists] = useState([])
+  const [updateTrue , setUpdateTrue] = useState(false)
+  // setUpdated(updateTrue)
 
-  useEffect(() => {
-    if (value.length === 0) setTodoListName(listName);
-    else setTodoListName(value[0].listName);
-
-    for (let i = 0; i < value.length; i++) {
-      if (value[i].listName !== "") {
-        setTodoListName(value[i].listName);
-        break;
-      }
+  value.forEach((val) => {
+    if (!totelLists.includes(val.status)) {
+      setTotelLists([...totelLists, val.status])
     }
-  }, [value]);
+  })
+  
+  console.log()
 
   const handleUpdate = (todo) => {
-    setIsEdit(true);
-    setTitle(todo.title);
-    setDiscription(todo.discription);
-    setOption(todo.option);
-    setDate(todo.date);
-    setTempId(todo.uid);
-  };
+    setUpdateTrue(true)
+    setIsEdit(true)
+    setTitle(todo.title)
+    setDiscription(todo.discription)
+    setOption(todo.option)
+    setDate(todo.date)
+    setTempId(todo.uid)
+    setStatus(todo.status)
+  }
 
   const handleUpdateConfirm = () => {
+    setUpdateTrue(false)
     update(ref(firebase.database(), `${firebase.auth().currentUser.uid}/${tempId}`), {
       title: title,
       discription: discription,
       option: option,
       date: Date,
       uid: tempId
-    });
-    setIsEdit(false);
-    setTitle("");
-    setDiscription("");
-    setOption("none");
-    setDate("");
-    setTempId("");
-    toast.success("Updated Successfully");
-  };
+
+    })
+    setIsEdit(false)
+    setTitle("")
+    setDiscription("")
+    setOption("none")
+    setDate("")
+    setTempId("")
+    toast.success("Updated Successfully")
+  }
 
   const handleDelete = (uid) => {
-    remove(ref(firebase.database(), `${firebase.auth().currentUser.uid}/${uid}`));
-    toast.success("Deleted Successfully");
-  };
+    remove(ref(firebase.database(), `${firebase.auth().currentUser.uid}/${uid}`))
+    toast.success("Deleted Successfully")
+  }
 
-  const dragItem = useRef(null);
-  const dragOverItem = useRef(null);
 
+  const dragItem = useRef(null)
+  const dragOverItem = useRef(null)
+  
   const handleSort = async () => {
     let todos = [...value];
     const draggedItemContent = todos.splice(dragItem.current, 1)[0];
     todos.splice(dragOverItem.current, 0, draggedItemContent);
+    
+    // Update priorities based on new order
+    todos.forEach((todo, index) => {
+      todo.order = index;
+      // Assuming you want to update the priority based on the order
+      switch (true) {
+        case index === 0:
+          todo.option = 'high';
+          break;
+        case index <= todos.length / 2:
+          todo.option = 'medium';
+          break;
+        default:
+          todo.option = 'low';
+          break;
+      }
+    });
+    
     dragItem.current = null;
     dragOverItem.current = null;
     setTodos(todos);
-
+  
     const updates = {};
-    todos.forEach((todo, index) => {
-      updates[todo.uid] = { ...todo, order: index };
+    todos.forEach((todo) => {
+      updates[todo.uid] = { ...todo };
     });
     await update(ref(firebase.database(), `${firebase.auth().currentUser.uid}`), updates);
   };
 
+
+
   const renderData = (state) => {
     return value
       .filter((todo) => {
-        return todo.status === state;
+        return todo.status === state
       })
       .map((todo, index) => {
         return (
@@ -267,22 +116,24 @@ function List({ todos, setTodos, setTitle, setDiscription, setOption, setDate, t
               <p className='title'>Title : {todo.title}</p>
               <p className='discription'>Discription : {todo.discription}</p>
               <span id='date'>Date : {todo.date}</span>
-              <span>Priority: {todo.option}</span>
-            </div>
+              <span>Priority: {todo.option}</span></div>
             <span className='icons'>
               <MdDelete onClick={() => handleDelete(todo.uid)} />
               {
-                isEdit ? <MdOutlineDone onClick={() => handleUpdateConfirm()} /> : <MdEdit onClick={() => handleUpdate(todo)} />
+                isEdit ? < MdOutlineDone onClick={() => handleUpdateConfirm()} /> : <MdEdit onClick={() => handleUpdate(todo)} />
+
               }
+
             </span>
           </li>
-        );
-      });
-  };
+        )
+      })
+
+  }
 
   const handleDragStart = (e, taskId, index) => {
     dragItem.current = index;
-    setTempId(taskId.uid);
+    setTempId(taskId.uid)
     e.dataTransfer.setData('taskId', taskId.uid);
   };
 
@@ -294,46 +145,73 @@ function List({ todos, setTodos, setTitle, setDiscription, setOption, setDate, t
     e.preventDefault();
     update(ref(firebase.database(), `${firebase.auth().currentUser.uid}/${tempId}`), {
       status: status,
-    });
+    })
   };
 
+
+  function createList(listName) {
+    setNumberList([...numberList, listName])
+    toast.success(`List "${listName}" created`);
+    setNewList("")
+  }
+
+  // const createList = () => {
+  //   if (newList.trim() !== "") {
+  //     setTotelLists((prevLists) => [...prevLists, newList]);
+  //     setNumberList([]);
+  //     toast.success(`List created`);
+  //     setNewList("");
+  //   }
+  // };
+
+
+if(totelLists.includes(numberList[0])) setNumberList([])
   return (
     <div className='allLists'>
-      <div className='todoList'>
-        <div className="list"
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e, 'todo')}
-        >
-          <p className='heading'>{todoListName.toUpperCase()}</p>
-          <ul>
-            {renderData("todo")}
-          </ul>
-        </div>
+    {totelLists.length !==0 &&
+      <div className='form createList position'>
+        <>
+          <input type="text" placeholder='Name Of List' value={newList} onChange={(e) => setNewList(e.target.value)} />
+          <button onClick={() => createList(newList)} disabled={updateTrue} >Add List</button></>
       </div>
-      <div className='processList'>
-        <div className="list"
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e, 'process')}
-        >
-          <p className='heading'>PROCESS</p>
-          <ul>
-            {renderData("process")}
-          </ul>
-        </div>
-      </div>
-      <div className='Finishedlist'>
-        <div className="list"
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e, 'finish')}
-        >
-          <p className='heading'>FINISH</p>
-          <ul>
-            {renderData("finish")}
-          </ul>
-        </div>
-      </div>
+       }   
+
+      {
+        totelLists
+        // .filter((state)=> state !=="")
+        .map((state , index) => {
+          return <div className='todoList' key={index}>
+            <div className="list"
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, state)}
+            >
+              <p className='heading'>{state.toUpperCase()}</p>
+              <ul>
+                {renderData(state)}
+              </ul>
+            </div>
+          </div>
+
+        })
+      }
+
+      {
+        numberList.map((item) => (
+          <div className='todoList'>
+            <div className="list"
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, item)}
+            >
+              <p className='heading'>{item.toUpperCase()}</p>
+              <ul>
+                {renderData(item)}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
     </div>
-  );
+  )
 }
 
-export default List;
+export default List
