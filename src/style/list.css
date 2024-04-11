@@ -1,60 +1,171 @@
-.allLists {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  
-  .list {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-  }
-  
-  .heading {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .shows {
-    margin-bottom: 15px;
-  }
-  
-  .title {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .discription {
-    font-size: 14px;
-  }
-  
-  #date {
-    font-size: 14px;
-  }
-  
+.allLists{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  align-items: start;
+}
 
-  .icons{
+.heading{
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 0.5rem 0;
+  margin: 0;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  border-bottom: 1px solid rgb(255 0 204 / 24%);
+}
+
+.createList{
+  display: flex;
+  justify-content: center;
+  padding: 3rem 2rem;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.createList input{
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+
+  color: white;
+  
+}
+
+.createList button{
+
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: rgba(21, 68, 21, 0.731);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.createList button:hover{
+  background-color: white;
+  color: #9c27b03b;
+  color: #000;
+}
+
+createList input::placeholder{
+  color: rgba(255, 255, 255, 0.548);
+}
+
+
+.big{
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+
+.position input{
+  width: 70%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+
+  color: black;
+
+}
+
+
+.position button{
+  width: 50%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: rgba(21, 68, 21, 0.731);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.allLists{
+  position: relative;
+  flex-wrap: wrap;
+}
+
+button:disabled{
+  cursor: no-drop;
+}
+
+#addbtn:disabled{
+  cursor: no-drop;
+
+}
+
+.heading{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#setlab{
+  font-size: 1rem;
+  margin-right: 1rem;
+ }
+
+ #anotherPos{
+  top: 20%;
+  left: 30%;
+  }
+
+  #center{
     display: flex;
-    /* flex-direction: column; */
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    color: black;
+    font-size: 1rem;
   }
+
   
-  .icons svg{
-    cursor: pointer;
-    margin: 0 1rem;
-    font-size: 1.5rem;
+
+  .priority{
+    display: flex;
+    position: absolute;
+    top: -19%;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 50%;
   }
-  
-  .icons svg:hover {
-    color: #007bff;
+
+  .priBox{
+    text-align: center;
+    background-color: #000;
+    padding: 1.5rem 3rem;
   }
-  
-  li{
-    list-style: none;
+
+  #drak{
+    background-color: red;
+    color: #fff;
   }
+  #normal {
+    background-color: orange;
+    color: #fff;
+  }
+  #lite{
+    color: #fff;
+    background-color: green;
+  }
+

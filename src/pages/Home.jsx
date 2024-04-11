@@ -15,8 +15,10 @@ function Home() {
   const [Date, setDate] = useState("")
   const navigate = useNavigate()
   const [todos, setTodos] = useState([]);
-  const [status , setStatus] = useState("")
+  const [status, setStatus] = useState("")
   const [Updated, setUpdated] = useState(false)
+  const [listSelect, setlistSelect] = useState("todo")
+  const [data, setData] = useState(false)
 
   const handleSignOut = () => {
     signOut(firebase.auth())
@@ -35,7 +37,7 @@ function Home() {
             const todo = childSnapshot.val();
             todosData.push(todo);
           });
-  
+
           // Order todos by the 'order' field
           const orderedTodos = todosData.sort((a, b) => a.order - b.order);
           setTodos(orderedTodos);
@@ -45,11 +47,10 @@ function Home() {
       }
     });
   }, []);
-  
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(title === "" || discription === "" || Date === "" ){
+    if (title === "" || discription === "" || Date === "") {
       toast.error("Please fill all fields")
       return
     }
@@ -60,7 +61,7 @@ function Home() {
       option: option,
       date: Date,
       uid: id,
-      status: status || "todo",
+      status:  listSelect || status,
     })
     setDate("");
     setTitle("");
@@ -70,17 +71,32 @@ function Home() {
 
   }
 
-  let value = { todos , setTodos, setTitle, setDiscription, setOption, setDate, title, discription, option, Date, setStatus, setUpdated}
+  const updateStatus = () => {
+    setData(true)
+  }
 
-
+  let value = { todos, setTodos, setTitle, setDiscription, setOption, setDate, title, discription, option, Date, setStatus, setUpdated, setlistSelect }
   return (
     <>
-      { <>
+      {(todos.length === 0 && !data) && <>
+        <div className='form createList position ' id='anotherPos'>
+        
+            <>
+            <input type="text" placeholder='Name Of List' value={status} onChange={e => setStatus(e.target.value)} required />
+              <button onClick={updateStatus} disabled={data} >Add List</button>
+              <p id='center'>{data ? "Add Data In List " : "Please Enter List Name "}</p>
+              </>
+          
+        </div>
+      </>
+      }
+      {(todos.length !== 0 || data) && <>
         <div className='todo'>
           <div className="input">
             <div className="inputs">
-              <input type="text" placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} required/>
-              <textarea type="text" placeholder='Discription' value={discription} onChange={(e) => setDiscription(e.target.value)}  required/>
+             {(listSelect ==="" && status === "") && <p id='float'>Plase select Your List First</p>}
+              <input type="text" placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} required />
+              <textarea type="text" placeholder='Discription' value={discription} onChange={(e) => setDiscription(e.target.value)} required />
               <div className='section'>
                 <input type="date" id='inputDate' value={Date} onChange={(e) => setDate(e.target.value)} required />
                 <select id='select' onChange={(e) => setOption(e.target.value)} value={option} >
@@ -91,21 +107,17 @@ function Home() {
                 </select>
               </div>
             </div>
-            <button onClick={handleSubmit} disabled={Updated} id='addbtn'> Add</button>
-            
+            <button onClick={handleSubmit} disabled={Updated ? "true" : !listSelect && !status ? "true" : ""} id='addbtn'>Add</button>
           </div>
         </div>
-        <List {...value} /> </>
+        <List {...value} />
+         </>
       }
       <div className="signOut">
         <button onClick={handleSignOut}>SignOut</button>
       </div>
-
-      
     </>
   )
 }
 
 export default Home
-
-
